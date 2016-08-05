@@ -7,7 +7,8 @@
 
         <link rel="stylesheet" href="<?php echo $view->getThemePath(); ?>/css/vendor/bootstrap/bootstrap.min.css">
         <?php echo $html->css($view->getStylesheet('main.less'));?>
-        <?php Loader::element('header_required'); ?>    
+        <?php echo $html->css($view->getStylesheet('submenu.css'));?>
+        <?php View::element('header_required'); ?>
     </head>
 
     <!-- set page name and pagetype name as class -->
@@ -20,31 +21,25 @@
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                        <button type="button" class="navbar-toggle <?php if($_GET['menuopen']){echo " in ";} ?>" data-toggle="collapse" data-target="#navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="<?php echo $this->url(''); ?>"><?php echo Config::get('concrete.site'); ?></a>
+                       <?php
+                       $a = new GlobalArea('Header Site Title');
+                       $a->display();
+
+                       ?>
                     </div>
                     
                     <!-- nav items -->
                     <div class="collapse navbar-collapse" id="navbar-collapse-1">
 
                         <?php
-                        /** 
-                        * Hardcoded navigation
-                        * bootstrap navigation template is required
-                        * download: https://github.com/Rgeelen/Concrete5-autonav-bootstrap-template
-                        */
-                        
-                        $nav = BlockType::getByHandle('autonav');
-                        $nav->controller->orderBy = 'display_asc';
-                        $nav->controller->displayPages = 'top';
-                        $nav->controller->displaySubpages = 'none';
-                        $nav->controller->navArray = array();
-                        $nav->render('templates/bootstrap');
+                        $a = new GlobalArea('Global Navigation');
+                        $a->display();
                         ?>
 
                     </div>
