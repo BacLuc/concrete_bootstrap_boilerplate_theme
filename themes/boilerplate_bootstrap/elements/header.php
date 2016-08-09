@@ -1,4 +1,8 @@
-<?php defined('C5_EXECUTE') or die("Access Denied."); ?>
+<?php defined('C5_EXECUTE') or die("Access Denied.");
+use Concrete\Core\Validation\CSRF\Token;
+use Concrete\Core\User\User;
+
+?>
 <!doctype html>
 <html lang="<?php echo Localization::activeLanguage()?>" class="no-js <?php if( $c->isEditMode() ){ echo "editmode";}; ?>">
     <head>
@@ -42,6 +46,42 @@
                         $a->display();
                         ?>
 
+                        <div class="navbar-form navbar-right loginpanel">
+                            <?php
+                            if (!id(new User)->isLoggedIn()) {
+                                ?>
+                                <a href="<?php echo URL::to('/login')?>">
+                                    <button class="btn btn-default">
+                                    <?php echo t('Log in') ?>
+                                        </button>
+                                </a>
+                                <?php
+                            } else {
+                                $token = new Token();
+                                ?>
+                                <form action="<?php echo URL::to('/login', 'logout') ?>">
+                                    <?php id(new Token())->output('logout'); ?>
+                                    <a href="#" onclick="$(this).closest('form').submit();return false">
+                                        <button class="btn btn-default">
+                                            <?php echo t('Log out') ?>
+                                        </button>
+                                    </a>
+                                </form>
+                                <?php
+                            }
+                            ?>
+                        </div>
+
+                        <div class="navbar-form navbar-right">
+                            <?php
+                            $a = new GlobalArea('Global Search');
+                            $a->display();
+                            ?>
+                        </div>
+
+
+
                     </div>
+
                 </div><!-- /.container -->
             </nav>
